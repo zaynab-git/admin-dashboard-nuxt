@@ -1,0 +1,56 @@
+{   
+    "drawer": {
+        "dashboard": "Dashboard",
+        "setting": "Setting",
+        "about": "About",
+        "profile": "Profile",
+        "subtitle": "welcome to your dashboard",
+        "log-out": "LOG OUT",
+        "chat": "Chat With Support"
+    },
+    
+    "profile": {
+        "profile-title": "Profile",
+        "profile-subtitle": "Here, you can edit your profile",
+        "first-name": "First Name",
+        "last-name": "Last Name",
+        "email": "Email",
+        "phone-number": "Phone Number",
+        "username": "Username"
+    },
+
+    "chatroom": {
+        "title": "chat with ",
+        "users": "users",
+        "placeholder": "send a message ...",
+        "send": "send"
+    },
+
+    "bar": {
+        "search": "search",
+        "dashboard": "Dashboard"
+    },
+
+    "setting": {
+        "language": "language"
+    },
+
+    "authentication": {
+        "log-in": {
+            "title": "LOG IN",
+            "username": "username",
+            "password": "password",
+            "submit": "submit",
+            "errors": {
+                "max-10-char": "Username must be at most 10 characters long",
+                "min-6-char": "Password must be at least 6 characters long",
+                "required-username": "Username is required",
+                "required-password": "Password is required"
+            }
+        }
+        
+    }
+
+    
+
+}

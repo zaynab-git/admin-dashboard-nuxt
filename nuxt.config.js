@@ -17,9 +17,9 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    // link: [
+    //   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    // ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -27,7 +27,7 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
+  plugins: [ 
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -43,7 +43,23 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/i18n',
   ],
+
+
+  i18n: {
+    locales: ['en', 'fa'],
+    defaultLocale: 'en',
+    vueI18n: {
+      fallbackLocale: 'en',
+      messages: 
+      {
+        en: JSON.parse(JSON.stringify(require('./static/locales/en.json'))),
+        fa: JSON.parse(JSON.stringify(require('./static/locales/fa.json'))),
+      }
+    }
+  },
+
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
@@ -52,7 +68,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
