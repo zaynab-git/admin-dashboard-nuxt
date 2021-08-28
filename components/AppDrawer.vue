@@ -4,7 +4,7 @@
     app
     clipped
     mobile-breakpoint="960"
-    
+    :right="this.$i18n.localeProperties.dir == 'rtl' ? true : false"
   >
 
     <v-list-item>

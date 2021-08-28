@@ -32,9 +32,11 @@ export default {
         },
         language: {
             get() {
-                return this.$i18n.locales.find( (item) => item.code === this.$i18n.locale ).name
+                return this.$i18n.localeProperties.name
             },
             set(value) {
+                this.$vuetify.rtl = (value.dir == 'rtl' ? true : false)
+                this.$vuetify.lang.current = value.code
                 this.$i18n.setLocale(value.code)
             }
         }

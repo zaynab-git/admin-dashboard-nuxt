@@ -19,20 +19,6 @@ export const state = () => ({
     },
 
     drawer: null,
-
-    languages:
-    [
-      {
-        name: "English",
-        value: "en",
-        rtl: false
-      },
-      {
-        name: "فارسی",
-        value: "fa",
-        rtl: true
-      }
-    ]
 });
 
 export const getters = {
@@ -76,16 +62,6 @@ export const mutations = {
     state.drawer = payload;
   },
 
-  SET_LANGUAGE (state, payload) {
-    if (payload != ''){
-      state.currentLanguage = payload;
-      state.i18n.locale = payload.value;
-      state.vuetify.rtl = payload.rtl;
-      state.vuetify.lang.current = payload.value;
-      localStorage.setItem('language', JSON.stringify(payload));
-    }
-
-  },
   SET_USER (state, payload) {
     state.user.firstName = payload.first_name;
     state.user.lastName = payload.last_name;

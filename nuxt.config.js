@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import fa from 'vuetify/lib/locale/fa'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -78,6 +79,9 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    lang: {
+      locales: {fa},
+    },
     theme: {
       dark: false,
       themes: {
