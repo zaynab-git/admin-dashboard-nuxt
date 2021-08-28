@@ -3,8 +3,6 @@ export const state = () => ({
     // token: localStorage.getItem('token') || '',
     token: '',
 
-    vuetify: '',
-    i18n: '',
     receiver: '',
     receivers: [],
 
@@ -21,12 +19,6 @@ export const state = () => ({
     },
 
     drawer: null,
-
-    currentLanguage: {
-      name: "English",
-      value: "en",
-      rtl: false
-    },
 
     languages:
     [
@@ -80,14 +72,10 @@ export const mutations = {
     state.messages[payload.sender].push({receiver: payload.receiver, sender: payload.sender, message: payload.message, id: payload.id});
   },
 
-  set_vuetifyandi18n (state, payload) {
-      state.vuetify = payload.vuetify;
-      state.i18n = payload.i18n;
-  },
-
   SET_DRAWER (state, payload) {
     state.drawer = payload;
   },
+
   SET_LANGUAGE (state, payload) {
     if (payload != ''){
       state.currentLanguage = payload;

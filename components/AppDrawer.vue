@@ -4,7 +4,7 @@
     app
     clipped
     mobile-breakpoint="960"
-    :right="this.$store.state.currentLanguage.rtl"
+    
   >
 
     <v-list-item>
@@ -26,16 +26,14 @@
       >
         <v-list-item
           v-for="item in items"
-          :to="item.to"
           :key="item.title"
-          link
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
+            <nuxt-link :to="localePath(item.to)">{{ $t(item.title) }}</nuxt-link>
           </v-list-item-content>
         </v-list-item>
       </v-list>
