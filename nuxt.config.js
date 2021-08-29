@@ -29,6 +29,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [ 
+    '~/plugins/chat-scroll.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -53,7 +54,7 @@ export default {
       {
         code: 'en',
         name: 'English',
-        dir: 'ltr'
+        dir:'ltr'
       },
       {
         code: 'fa',
@@ -62,6 +63,7 @@ export default {
       },
     ],
     defaultLocale: 'en',
+    defaultDirection: 'rtl',
     vueI18n: {
       fallbackLocale: 'en',
       messages: 
@@ -74,7 +76,7 @@ export default {
 
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

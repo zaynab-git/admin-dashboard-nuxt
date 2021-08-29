@@ -1,3 +1,5 @@
+import axios from '@nuxtjs/axios'
+
 export const state = () => ({
   status: '',
     // token: localStorage.getItem('token') || '',
@@ -14,7 +16,7 @@ export const state = () => ({
       lastName: "",
       email: "",
       phoneNumber: "",
-      // userName: localStorage.getItem('userName') || '',
+      userName: localStorage.getItem('userName') || '',
       userName: 'salam'
     },
 

@@ -1,0 +1,124 @@
+openapi: 3.0.0
+info:
+  description: "This is a sample user server."
+  version: "1.0.0"
+  title: "Sample API"
+  contact:
+    name: Zeynab Heydarzadeh
+    email: zeinabheidarzadeh1377@gmail.com
+servers:
+  - url: 'http://localhost:1200'
+    description: local
+paths:
+
+  /users:
+    post:
+      description: authenticate a user
+      operationId: authenticate-user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successfully created a new user
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+                      example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b3B0YWwuY29tIiwiZXhwIjoxNDI2NDIwODAwLCJodHRwOi8vdG9wdGFsLmNvbS9qd3RfY2xhaW1zL2lzX2FkbWluIjp0cnVlLCJjb21wYW55IjoiVG9wdGFsIiwiYXdlc29tZSI6dHJ1ZX0.yRQYnWzskCZUxPwaQupWkiUzKELZ49eM7oWxAQK_ZXw' 
+        '400':
+          $ref: '#/components/responses/400Error'
+
+
+          
+            
+  /users/{username}:
+    get:
+      description: Returns information of a specific user
+      operationId: get-user-info
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+          
+      responses:
+        '200':
+          description: Successfully returned the user`s info
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      example: admin
+                    first_name:
+                      type: string
+                      example: zeynab
+                    last_name:
+                      type: string
+                      example: heydarzdeh
+                    email:
+                      type: string
+                      example: myemail@gmail.com
+                    phone_number:
+                      type: integer
+                      example: 123456789
+                
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+                    
+          
+components:
+
+  responses:
+    400Error:
+      description: invalid request
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+                example: invalid request
+    
+    401Error:
+      description: invalid or missing authorization 
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+                example: invalid or missing authorization 
+
+
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  
+  
+  
