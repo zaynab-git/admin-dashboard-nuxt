@@ -3,13 +3,6 @@ import axios from '@nuxtjs/axios'
 export const state = () => ({
   status: '',
     token: window.localStorage.getItem('token') || '',
-
-    receiver: '',
-    receivers: [],
-
-    messages: {},
-    chatConnection: '',
-
     user: {
       firstName: "",
       lastName: "",
@@ -24,45 +17,12 @@ export const state = () => ({
 export const getters = {
   isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-    messages: state => {
-      let sep_msgs = state.messages;
-      let con_msgs = [];
-      // Object.keys(sep_msgs).forEach(function(key) {
-      //   con_msgs = con_msgs.concat(sep_msgs[key])
-      // });
-      if (state.receiver in sep_msgs)  con_msgs = con_msgs.concat(sep_msgs[state.receiver]);
-      if (state.user.userName in sep_msgs)   con_msgs = con_msgs.concat(sep_msgs[state.user.userName].filter(function(r) { return r.receiver == state.receiver }));
-
-      if (con_msgs.length != 0) {
-        con_msgs.sort(function(a, b) {
-          return a.id - b.id;
-        });
-      }
-      return con_msgs;
-    },
-    receivers: state => {
-      return state.receivers.filter(function(r) { return r != 'support' })
-    }
 };
 
 export const mutations = {
 
-  set_websocket (state, payload) {
-    state.chatConnection = payload
-  },
-
-
-
   set_username (state, payload) {
     state.user.userName = payload
-  },
-
-  add_message (state, payload) {
-    if (!(payload.sender in state.messages)){
-      state.messages[payload.sender] = new Array();
-      state.messages = {...state.messages}
-    }
-    state.messages[payload.sender].push({receiver: payload.receiver, sender: payload.sender, message: payload.message, id: payload.id});
   },
 
   SET_DRAWER (state, payload) {
@@ -90,12 +50,6 @@ export const mutations = {
     state.token = '';
     this.state.messages = {};
   },
-  set_receiver(state, payload) {
-    state.receiver = payload;
-  },
-  set_receivers(state, payload) {
-    state.receivers = payload;
-  }
 };
 
 export const actions = {
@@ -109,29 +63,6 @@ export const actions = {
       .then(response => {
         this.commit('SET_USER', response.data)
       })
-  },
-
-  connect_to_websocket() {
-    if (this.state.user.userName != '') {
-      this.state.chatConnection = new WebSocket("ws://localhost:8080/" + this.state.user.userName)
-      let that = this;
-      this.state.chatConnection.onmessage = function(event) {
-
-        if (JSON.parse(event.data).header == 'message') {
-          that.commit('add_message',JSON.parse(event.data)['message']);
-        }
-        else if (JSON.parse(event.data).header == 'users') {
-          that.state.receivers = JSON.parse(event.data).message;
-        }
-      }
-
-      this.state.chatConnection.onopen = function() {
-        console.log("Successfully connected to the echo websocket server...");
-        if (that.state.user.userName != 'support') {
-          that.commit('set_receiver','support')
-        }
-      }
-    }
   },
 
   login({commit}, user){
@@ -158,9 +89,7 @@ export const actions = {
   logout({commit}){
     return new Promise((resolve) => {
       commit('logout')
-      commit('SET_LANGUAGE',this.state.languages[0])
       localStorage.removeItem('token')
-      localStorage.removeItem('language')
       resolve()
     })
   }

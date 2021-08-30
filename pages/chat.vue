@@ -7,7 +7,7 @@
                     <v-divider></v-divider>
                     <v-list class="mx-3" height="400px"  style="overflow-y: scroll;" v-chat-scroll>
                       <v-list-item
-                      v-for="msg in this.$store.getters.messages"
+                      v-for="msg in this.$store.getters['chatroom/messages']"
                       :key="msg.id"
                       >
                       <v-list-item-content>
@@ -37,7 +37,7 @@
               <v-divider></v-divider>
                     <v-list class="mx-3" height="465px"  style="overflow-y: scroll;" v-chat-scroll>
                       <v-list-item
-                      v-for="receiver in this.$store.getters.receivers"
+                      v-for="receiver in this.$store.getters['chatroom/receivers']"
                       :key="receiver"
                       >
                       <v-list-item-content >
@@ -64,11 +64,11 @@ export default {
     sendMessage: function(e) {
       e.preventDefault();
       if (this.message == '') return;
-      this.$store.state.chatConnection.send(JSON.stringify({receiver: this.$store.state.receiver ,sender: this.$store.state.user.userName, message: this.message, id: Date.now()}));
+      this.$store.state.chatroom.chatConnection.send(JSON.stringify({receiver: this.$store.state.chatroom.receiver ,sender: this.$store.state.user.userName, message: this.message, id: Date.now()}));
       this.message = '';
     },
     setReceiver: function(r) {
-      this.$store.commit('set_receiver',r)
+      this.$store.commit('chatroom/set_receiver',r)
     }
   },
 }
