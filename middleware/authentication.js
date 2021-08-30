@@ -1,5 +1,6 @@
-export default function ({ store, redirect }) {
-    if (!store.state.status === 'success') {
-      return redirect('login')
-    }
+
+export default function ({ redirect, store }) {
+  if (!store.getters.isLoggedIn) {
+    return redirect('login')
   }
+}

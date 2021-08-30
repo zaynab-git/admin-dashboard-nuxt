@@ -16,7 +16,7 @@ import AppDrawer from '../components/AppDrawer.vue'
 export default {
     name: 'Base',
     components: { AppBar, AppDrawer },
-    middleware: ['authentication'],
+    middleware: ['authentication','connect-to-chat-server'],
     mounted() {
         this.$vuetify.rtl = (this.$i18n.localeProperties.dir == 'rtl' ? true : false)
     }

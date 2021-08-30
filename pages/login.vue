@@ -1,7 +1,7 @@
 <template>
     <div 
       style="width: 40%; margin: auto; margin-top: 100px; ">
-        <v-form >
+        <form >
             <h1>{{ $t('authentication.log-in.title') }}</h1>
             <v-text-field
                 v-model="username"
@@ -31,7 +31,7 @@
             >
                 {{$t('authentication.log-in.submit')}}
             </v-btn>
-        </v-form>
+        </form>
     </div>           
 </template>
 
@@ -71,6 +71,10 @@
 
     methods: {
       submit(){
+        this.$v.$touch()
+        if (this.$v.$invalid) {
+          this.submitStatus = 'ERROR'
+        } else {
         let user = {username: this.username, password: this.password}
         let that = this
       return new Promise((resolve, reject) => {
@@ -91,10 +95,17 @@
           reject(err)
         })
       })
+      }
     },
     },
     mounted() {
         this.$vuetify.rtl = (this.$i18n.localeProperties.dir == 'rtl' ? true : false)
+    },
+  middleware({ redirect, app, store }) {
+      if (store.getters.isLoggedIn) {
+        let locale = (app.i18n.locale == 'en' ? '' : app.i18n.locale)
+        return redirect('/' + locale)
+      }
     }
   }
 </script>

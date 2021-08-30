@@ -2,8 +2,7 @@ import axios from '@nuxtjs/axios'
 
 export const state = () => ({
   status: '',
-    // token: localStorage.getItem('token') || '',
-    token: '',
+    token: window.localStorage.getItem('token') || '',
 
     receiver: '',
     receivers: [],
@@ -16,8 +15,7 @@ export const state = () => ({
       lastName: "",
       email: "",
       phoneNumber: "",
-      userName: localStorage.getItem('userName') || '',
-      userName: 'salam'
+      userName: window.localStorage.getItem('userName') || '',
     },
 
     drawer: null,
@@ -48,6 +46,13 @@ export const getters = {
 };
 
 export const mutations = {
+
+  set_websocket (state, payload) {
+    state.chatConnection = payload
+  },
+
+
+
   set_username (state, payload) {
     state.user.userName = payload
   },
@@ -87,6 +92,9 @@ export const mutations = {
   },
   set_receiver(state, payload) {
     state.receiver = payload;
+  },
+  set_receivers(state, payload) {
+    state.receivers = payload;
   }
 };
 
