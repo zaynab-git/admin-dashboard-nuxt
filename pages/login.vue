@@ -1,8 +1,9 @@
 <template>
     <div 
-      style="width: 40%; margin: auto; margin-top: 100px; ">
+      style="width: 40%; margin: auto; margin-top: 100px; "
+      :dir="this.$i18n.localeProperties.dir">
         <form >
-            <h1>{{ $t('authentication.log-in.title') }}</h1>
+            <h1 >{{ $t('authentication.log-in.title') }}</h1>
             <v-text-field
                 v-model="username"
                 :error-messages="usernameErrors"

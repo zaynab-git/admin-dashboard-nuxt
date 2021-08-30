@@ -2,7 +2,8 @@
     <v-app>
         <app-bar/>
         <app-drawer/>
-            <v-main>
+            <v-main
+            :dir="this.$i18n.localeProperties.dir">
                 <Nuxt/>
             </v-main>
     </v-app>
