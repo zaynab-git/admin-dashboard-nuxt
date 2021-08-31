@@ -22,19 +22,21 @@
 </template>
 
 <script>
+
+import { computed, useStore } from '@nuxtjs/composition-api'
 export default {
+
+    setup () {
+        const store = useStore()
+        const user = computed ( () =>  store.state.user)
+
+        return {
+            user
+        }
+    },
 
     layout: 'Base',
     name: "Profile",
-    data: () => ({
-        //
-    }),
-    
-    computed: {
-        user: function () {
-            return this.$store.state.user
-        }
-    },
     
 }
 </script>

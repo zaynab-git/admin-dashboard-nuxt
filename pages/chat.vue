@@ -55,6 +55,7 @@
 
 <script>
 export default {
+  middleware: ['connect-to-chat-server'],
   layout: 'Base',
   name: 'Chat',
   data: () => ({

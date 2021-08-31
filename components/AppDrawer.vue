@@ -5,6 +5,7 @@
     clipped
     mobile-breakpoint="960"
     :right="this.$i18n.localeProperties.dir == 'rtl' ? true : false"
+
   >
 
     <v-list-item>
@@ -27,13 +28,17 @@
         <v-list-item
           v-for="item in items"
           :key="item.title"
+          :to="localePath(item.to)"
+          exact
+          link
+          nuxt
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <nuxt-link :to="localePath(item.to)">{{ $t(item.title) }}</nuxt-link>
+            {{ $t(item.title) }}
           </v-list-item-content>
         </v-list-item>
       </v-list>
