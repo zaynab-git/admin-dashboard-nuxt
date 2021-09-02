@@ -54,24 +54,35 @@
 </template>
 
 <script>
+import { ref, useStore } from '@nuxtjs/composition-api'
 export default {
+
   middleware: ['connect-to-chat-server'],
   layout: 'Base',
   name: 'Chat',
-  data: () => ({
-    message: '',
-  }),
-  methods: {
-    sendMessage: function(e) {
+  
+  setup () {
+    const message = ref('');
+    const store = useStore();
+
+    const sendMessage = (e) => {
       e.preventDefault();
-      if (this.message == '') return;
-      this.$store.state.chatroom.chatConnection.send(JSON.stringify({receiver: this.$store.state.chatroom.receiver ,sender: this.$store.state.user.userName, message: this.message, id: Date.now()}));
-      this.message = '';
-    },
-    setReceiver: function(r) {
-      this.$store.commit('chatroom/set_receiver',r)
+      if (message.value == '') return;
+      store.state.chatroom.chatConnection.send(JSON.stringify({receiver: store.state.chatroom.receiver ,sender: store.state.user.userName, message: message.value, id: Date.now()}));
+      message.value = '';
+    }
+
+    const setReceiver = (r) => {
+      store.commit('chatroom/set_receiver',r)
+    }
+
+    return {
+      message,
+      sendMessage,
+      setReceiver
     }
   },
+
 }
 </script>
 

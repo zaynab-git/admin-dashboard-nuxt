@@ -45,6 +45,10 @@ export default {
     '@nuxtjs/composition-api/module'
   ],
 
+  // router: {
+  //   middleware: 'vuetify'
+  // },
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
@@ -75,6 +79,7 @@ export default {
     defaultLocale: 'en',
     defaultDirection: 'rtl',
     vueI18n: {
+      // legacy: false,
       fallbackLocale: 'en',
       messages: 
       {

@@ -13,7 +13,6 @@ export const getters = {
     messages: (state, getters, rootState, rootGetters) => {
       let sep_msgs = state.messages;
       let con_msgs = [];
-      console.log(rootState)
       if (state.receiver in sep_msgs)  con_msgs = con_msgs.concat(sep_msgs[state.receiver]);
       if (rootState.user.userName in sep_msgs)   con_msgs = con_msgs.concat(sep_msgs[rootState.user.userName].filter(function(r) { return r.receiver == state.receiver }));
 

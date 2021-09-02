@@ -17,29 +17,32 @@
 </template>
 
 <script>
+import { computed, useContext  } from '@nuxtjs/composition-api'
 
 export default {
     layout: 'Base',
     name: "Setting",
-    data: () => ({
-        //
-    }),
     
+    setup () {
 
-    computed: {
-        availableLocales () {
-            return this.$i18n.locales
-        },
-        language: {
+        const {app} = useContext()
+        const i18n = app.i18n
+
+        const availableLocales = computed ( () => i18n.locales)
+        const language = computed ({
             get() {
-                return this.$i18n.localeProperties.name
+                return i18n.localeProperties.name
             },
             set(value) {
-                this.$root.$vuetify.rtl = (value.dir == 'rtl' ? true : false)
-                this.$vuetify.lang.current = value.code
-                this.$i18n.setLocale(value.code)
+                i18n.setLocale(value.code)
             }
+        })
+
+        return {
+            availableLocales,
+            language,
         }
     }
+
 }
 </script>
