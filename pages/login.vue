@@ -5,7 +5,7 @@
         <form >
             <h1 >{{ $t('authentication.log-in.title') }}</h1>
             <v-text-field
-                v-model="username"
+                v-model="$v.username.$model"
                 :error-messages="usernameErrors"
                 :label="this.$t('authentication.log-in.username')"
                 required
@@ -14,7 +14,7 @@
                 v-on:keyup.enter="$refs.password.focus()"
                 ></v-text-field>
             <v-text-field
-                v-model="password"
+                v-model="$v.password.$model"
                 :error-messages="passwordErrors"
                 :label="this.$t('authentication.log-in.password')"
                 type="password"
@@ -27,7 +27,6 @@
             <v-btn
                 class="mr-4"
                 @click="submit"
-                v-on:keyup.enter="submit"
                 ref="submit"
             >
                 {{$t('authentication.log-in.submit')}}
@@ -37,71 +36,82 @@
 </template>
 
 <script>
-  import { validationMixin } from 'vuelidate'
-  import { required, maxLength, minLength  } from 'vuelidate/lib/validators'
+  import { required, maxLength, minLength } from 'vuelidate/lib/validators'
+  import { computed, reactive, useStore, useRouter, useContext  } from '@nuxtjs/composition-api'
+  import useVuelidate from '@vuelidate/core'
+
 
   export default {
-    mixins: [validationMixin],
 
-    validations: {
-      username: { required, maxLength: maxLength(10) },
-      password: { required, minLength: minLength(6) },
-    },
+    setup () {
 
-    data: () => ({
+    const state = reactive({
       username: '',
-      password: '',
-    }),
+      password: ''
+    })
 
-    computed: {
-      usernameErrors () {
-        const errors = []
-        if (!this.$v.username.$dirty) return errors
-        !this.$v.username.maxLength && errors.push(this.$t('authentication.log-in.errors.max-10-char'))
-        !this.$v.username.required && errors.push(this.$t('authentication.log-in.errors.required-username'))
-        return errors
-      },
-      passwordErrors () {
-        const errors = []
-        if (!this.$v.password.$dirty) return errors
-        !this.$v.password.minLength && errors.push(this.$t('authentication.log-in.errors.min-6-char'))
-        !this.$v.password.required && errors.push(this.$t('authentication.log-in.errors.required-password'))
-        return errors
-      },
-    },
+    const rules = {
+      username: { required, maxLength: maxLength(10), $autoDirty: true},
+      password: { required, minLength: minLength(6), $autoDirty: true},
+    }
 
-    methods: {
-      submit(){
-        this.$v.$touch()
-        if (this.$v.$invalid) {
-          this.submitStatus = 'ERROR'
-        } else {
-        let user = {username: this.username, password: this.password}
-        let that = this
+    const $v = useVuelidate(rules, state)
+
+    const usernameErrors = computed( () => {
+        const errors = []
+        if ($v.value.username.maxLength.$invalid) {
+          errors.push("this.$t('authentication.log-in.errors.max-10-char')")
+        }
+        if ($v.value.username.required.$invalid && $v.value.username.$dirty) {
+          errors.push("this.$t('authentication.log-in.errors.required-username')")
+        }
+        return errors
+    })
+
+    const passwordErrors = computed( () => {
+        const errors = []
+        if ($v.value.password.minLength.$invalid) {
+          errors.push("this.$t('authentication.log-in.errors.max-10-char')")
+        }
+        if ($v.value.password.required.$invalid && $v.value.password.$dirty) {
+          errors.push("this.$t('authentication.log-in.errors.required-username')")
+        }
+        return errors
+    })
+
+    const store = useStore();
+    const { $axios, app } = useContext();
+    const router = useRouter();
+
+    const submit = () => {
+      $v.value.$touch()
+      if ($v.value.$invalid) {
+        return
+      } else {
+      let user = {username: $v.value.username.$model, password: $v.value.username.$model}
       return new Promise((resolve, reject) => {
-        that.$store.commit('auth_request')
-        this.$axios({url: 'http://127.0.0.1:4010/users', data: user, method: 'POST' })
+        store.commit('auth_request')
+        $axios({url: 'http://127.0.0.1:4010/users', data: user, method: 'POST' })
         .then(resp => {
           const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b3B0YWwuY29tIiwiZXhwIjoxNDI2NDIwODAwLCJodHRwOi8vdG9wdGFsLmNvbS9qd3RfY2xhaW1zL2lzX2FkbWluIjp0cnVlLCJjb21wYW55IjoiVG9wdGFsIiwiYXdlc29tZSI6dHJ1ZX0.yRQYnWzskCZUxPwaQupWkiUzKELZ49eM7oWxAQK_ZXw'
           localStorage.setItem('token', token)
           localStorage.setItem('userName', user.username)
-          that.$store.commit('auth_success', token)
-          that.$store.commit('set_username',user.username)
-          that.$router.push({path: that.localePath('/')});
+          store.commit('auth_success', token)
+          store.commit('set_username',user.username)
+          router.push({path: app.localePath('/')});
           resolve(resp)
         })
         .catch(err => {
-          that.$store.commit('auth_error')
+          store.commit('auth_error')
           localStorage.removeItem('token')
           reject(err)
         })
       })
       }
-    },
-    },
-    mounted() {
-        this.$vuetify.rtl = (this.$i18n.localeProperties.dir == 'rtl' ? true : false)
-    },
+    }
+    return { usernameErrors, passwordErrors, $v, submit }
+  },
+
   middleware({ redirect, app, store }) {
       if (store.getters.isLoggedIn) {
         let locale = (app.i18n.locale == 'en' ? '' : app.i18n.locale)

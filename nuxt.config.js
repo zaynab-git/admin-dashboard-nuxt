@@ -45,9 +45,9 @@ export default {
     '@nuxtjs/composition-api/module'
   ],
 
-  // router: {
-  //   middleware: 'vuetify'
-  // },
+  router: {
+    middleware: 'vuetify'
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [

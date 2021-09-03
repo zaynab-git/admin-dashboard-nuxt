@@ -1,5 +1,5 @@
 
-export default function ({ app }) {
-    app.vuetify.lang.current = app.i18n.locale
-    app.vuetify.rtl = (app.i18n.localeProperties.dir == 'rtl' ? true : false)
+export default function ({ app, $vuetify }) {
+    $vuetify.lang.current = app.i18n.locale
+    $vuetify.rtl = (app.i18n.localeProperties.dir == 'rtl' ? true : false)
   }

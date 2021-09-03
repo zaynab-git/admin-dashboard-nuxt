@@ -18,9 +18,5 @@ export default {
     name: 'Base',
     components: { AppBar, AppDrawer },
     middleware: ['authentication'],
-    mounted() {
-        this.$vuetify.lang.current = this.$i18n.locale
-        this.$vuetify.rtl = (this.$i18n.localeProperties.dir == 'rtl' ? true : false)
-    }
 }
 </script>
