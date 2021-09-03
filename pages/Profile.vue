@@ -6,7 +6,7 @@
                 <v-card-subtitle>{{ $t("profile.profile-subtitle") }}</v-card-subtitle>
                 <v-list>
                     <v-list-item>
-                        <v-list-item-content>5555
+                        <v-list-item-content>
                             <v-list-item-title>{{$t('profile.first-name')}}: {{ user.firstName }}</v-list-item-title>
                             <v-list-item-title>{{$t('profile.last-name')}}: {{ user.lastName }}</v-list-item-title>
                             <v-list-item-title>{{$t('profile.email')}}: {{ user.email }}</v-list-item-title>
@@ -21,8 +21,10 @@
 </template>
 
 <script>
+    import { computed, useStore } from '@nuxtjs/composition-api'
 
 export default {
+
 
     setup () {
         const store = useStore()

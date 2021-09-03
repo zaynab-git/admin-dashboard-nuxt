@@ -18,5 +18,8 @@ export default {
     name: 'Base',
     components: { AppBar, AppDrawer },
     middleware: ['authentication'],
+    mounted() {
+        this.$store.dispatch('GET_USER')
+    }
 }
 </script>

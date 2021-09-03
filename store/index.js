@@ -53,15 +53,15 @@ export const mutations = {
 };
 
 export const actions = {
-  GET_USER () {
-    axios.get('http://127.0.0.1:4010/users/zeynab',
+  async GET_USER () {
+    await this.$axios.$get('http://127.0.0.1:4010/users/'+ this.state.user.userName,
     {
       headers: {
         'Authorization': this.state.token
       }
     })
       .then(response => {
-        this.commit('SET_USER', response.data)
+        this.commit('SET_USER', response)
       })
   },
 
