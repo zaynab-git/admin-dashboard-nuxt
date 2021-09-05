@@ -9,17 +9,19 @@
     </v-container>
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from '@nuxtjs/composition-api'
+import {Dessert, Header} from '../types/table'
+
 export default {
 
     setup () {
-      const headers = ref([
+      const headers = ref<Header[]>([
         {
           text: 'Dessert (100g serving)',
+          value: 'name',
           align: 'start',
           sortable: false,
-          value: 'name',
         },
         { text: 'Calories', value: 'calories' },
         { text: 'Fat (g)', value: 'fat' },
@@ -27,7 +29,7 @@ export default {
         { text: 'Protein (g)', value: 'protein' },
         { text: 'Iron (%)', value: 'iron' },
       ])
-      const desserts = ref([
+      const desserts = ref<Dessert[]>([
         {
           name: 'Frozen Yogurt',
           calories: 159,
