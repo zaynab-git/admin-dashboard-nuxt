@@ -16,8 +16,9 @@
         </v-col>
 </template>
 
-<script>
+<script lang="ts">
 import { computed, useContext  } from '@nuxtjs/composition-api'
+import Locale from "../types/language"
 
 export default {
     layout: 'Base',
@@ -28,12 +29,12 @@ export default {
         const {app} = useContext()
         const i18n = app.i18n
 
-        const availableLocales = computed ( () => i18n.locales)
+        const availableLocales = computed ( () => i18n.locales as Locale[])
         const language = computed ({
             get() {
                 return i18n.localeProperties.name
             },
-            set(value) {
+            set(value: Locale) {
                 i18n.setLocale(value.code)
             }
         })

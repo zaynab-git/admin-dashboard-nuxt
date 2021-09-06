@@ -6,17 +6,20 @@ export default function vuelidate({rules, state}) {
     
     const $v = useVuelidate(rules, state)
     const { app } = useContext();
+    // const computeds : { [key: string]: object; } = {}
     const computeds = {}
 
     computeds['username'] = (
         computed( () => {
-            const errors = []
-            if ($v.value.username.maxLength.$invalid) {
-                errors.push(app.i18n.t('authentication.log-in.errors.max-10-char'))
+          const errors = []
+          if ($v.value.username.$error) {
+            if ($v.value.username.$errors[0].$validator == "maxLength") {
+              errors.push(app.i18n.t('authentication.log-in.errors.max-10-char'))
             }
-            if ($v.value.username.required.$invalid && $v.value.username.$dirty) {
-                errors.push(app.i18n.t('authentication.log-in.errors.required-username'))
+            if ($v.value.username.$errors[0].$validator == "required") {
+              errors.push(app.i18n.t('authentication.log-in.errors.required-username'))
             }
+          }
             return errors
         })
     )
@@ -24,11 +27,13 @@ export default function vuelidate({rules, state}) {
     computeds['password'] = (
         computed( () => {
             const errors = []
-            if ($v.value.password.minLength.$invalid) {
+            if ($v.value.password.$error) {
+              if ($v.value.password.$errors[0].$validator == "minLength") {
                 errors.push(app.i18n.t('authentication.log-in.errors.min-6-char'))
-            }
-            if ($v.value.password.required.$invalid && $v.value.password.$dirty) {
+              }
+              if ($v.value.password.$errors[0].$validator == "required") {
                 errors.push(app.i18n.t('authentication.log-in.errors.required-password'))
+              }
             }
             return errors
         })

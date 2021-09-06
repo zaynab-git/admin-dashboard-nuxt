@@ -10,7 +10,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
 import AppBar from '../components/AppBar.vue'
 import AppDrawer from '../components/AppDrawer.vue'
 

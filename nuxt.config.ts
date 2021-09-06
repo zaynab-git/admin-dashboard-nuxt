@@ -1,6 +1,7 @@
 // import colors from 'vuetify/es5/util/colors'
-// import fa from 'vuetify/lib/locale/fa'
+import Locale from "./types/language"
 const fa = require('vuetify/lib/locale/fa')
+// const locale = require("../types/language.ts")
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -21,9 +22,6 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    // link: [
-    //   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    // ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -32,7 +30,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [ 
-    '~/plugins/chat-scroll.js',
+    '~/plugins/chat-scroll',
     '~/plugins/vuelidate'
   ],
 
@@ -77,7 +75,7 @@ export default {
         name: 'فارسی',
         dir: 'rtl'
       },
-    ],
+    ] as Locale[],
     defaultLocale: 'en',
     defaultDirection: 'rtl',
     vueI18n: {

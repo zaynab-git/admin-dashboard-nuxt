@@ -5,4 +5,9 @@ type Message = {
     id: number
 }
 
-export default Message
+type Messages = {
+    [sender: string]: Message[]
+}
+
+
+export  {Message, Messages}

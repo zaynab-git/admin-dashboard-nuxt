@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import { ref, useStore } from '@nuxtjs/composition-api'
-import Message from "../types/chatroom"
+import {Message} from "../types/chatroom"
 
 export default {
 

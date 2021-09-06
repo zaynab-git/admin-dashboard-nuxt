@@ -12,7 +12,9 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import { ref } from '@nuxtjs/composition-api'
+
 export default {
   layout: 'empty',
   props: {
@@ -21,12 +23,17 @@ export default {
       default: null
     }
   },
-  data () {
+
+  setup() {
+    const pageNotFound = ref('404 Not Found')
+    const otherError = ref('An error occurred')
+
     return {
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred'
+      pageNotFound,
+      otherError
     }
   },
+
   head () {
     const title =
       this.error.statusCode === 404 ? this.pageNotFound : this.otherError
@@ -34,11 +41,6 @@ export default {
       title
     }
   }
+  
 }
 </script>
-
-<style scoped>
-h1 {
-  font-size: 20px;
-}
-</style>
