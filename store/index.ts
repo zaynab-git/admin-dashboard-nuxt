@@ -1,25 +1,29 @@
-import axios from '@nuxtjs/axios'
+
+import { GetterTree, ActionTree, MutationTree } from 'vuex'
 
 export const state = () => ({
   status: '',
     token: window.localStorage.getItem('token') || '',
     user: {
-      firstName: "",
+      firstName: "" ,
       lastName: "",
       email: "",
       phoneNumber: "",
       userName: window.localStorage.getItem('userName') || '',
     },
 
-    drawer: null,
+    drawer: null as boolean|null,
 });
 
-export const getters = {
+export type RootState = ReturnType<typeof state>
+
+export const getters : GetterTree<RootState, RootState> = {
   isLoggedIn: state => !!state.token,
-    authStatus: state => state.status,
+  authStatus: state => state.status,
+  user: state => state.user
 };
 
-export const mutations = {
+export const mutations : MutationTree<RootState> = {
 
   set_username (state, payload) {
     state.user.userName = payload
@@ -48,11 +52,10 @@ export const mutations = {
   logout(state){
     state.status = '';
     state.token = '';
-    this.state.messages = {};
   },
 };
 
-export const actions = {
+export const actions : ActionTree<RootState, RootState> = {
   async GET_USER () {
     await this.$axios.$get('http://127.0.0.1:4010/users/'+ this.state.user.userName,
     {
@@ -68,10 +71,10 @@ export const actions = {
   login({commit}, user){
     return new Promise((resolve, reject) => {
       commit('auth_request')
-      axios({url: 'http://127.0.0.1:4010/users', data: user, method: 'POST' })
+      this.$axios({url: 'http://127.0.0.1:4010/users', data: user, method: 'POST' })
       .then(resp => {
-        // const token = resp.data.token
-        const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b3B0YWwuY29tIiwiZXhwIjoxNDI2NDIwODAwLCJodHRwOi8vdG9wdGFsLmNvbS9qd3RfY2xhaW1zL2lzX2FkbWluIjp0cnVlLCJjb21wYW55IjoiVG9wdGFsIiwiYXdlc29tZSI6dHJ1ZX0.yRQYnWzskCZUxPwaQupWkiUzKELZ49eM7oWxAQK_ZXw'
+        const token = resp.data.token
+        // const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b3B0YWwuY29tIiwiZXhwIjoxNDI2NDIwODAwLCJodHRwOi8vdG9wdGFsLmNvbS9qd3RfY2xhaW1zL2lzX2FkbWluIjp0cnVlLCJjb21wYW55IjoiVG9wdGFsIiwiYXdlc29tZSI6dHJ1ZX0.yRQYnWzskCZUxPwaQupWkiUzKELZ49eM7oWxAQK_ZXw'
         localStorage.setItem('token', token)
         localStorage.setItem('userName', user.username)
         commit('auth_success', token)
@@ -90,7 +93,7 @@ export const actions = {
     return new Promise((resolve) => {
       commit('logout')
       localStorage.removeItem('token')
-      resolve()
+      resolve(null)
     })
   }
 

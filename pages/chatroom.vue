@@ -53,8 +53,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, useStore } from '@nuxtjs/composition-api'
+import Message from "../types/chatroom"
+
 export default {
 
   middleware: ['connect-to-chat-server'],
@@ -68,7 +70,8 @@ export default {
     const sendMessage = (e) => {
       e.preventDefault();
       if (message.value == '') return;
-      store.state.chatroom.chatConnection.send(JSON.stringify({receiver: store.state.chatroom.receiver ,sender: store.state.user.userName, message: message.value, id: Date.now()}));
+      let msg: Message = {receiver: store.getters["chatroom/receiver"] ,sender: store.getters.user.userName, message: message.value, id: Date.now()}
+      store.getters["chatroom/chatConnection"].send(JSON.stringify(msg));
       message.value = '';
     }
 
