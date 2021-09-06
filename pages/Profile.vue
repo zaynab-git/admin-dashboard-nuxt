@@ -20,15 +20,14 @@
       </v-col>
 </template>
 
-<script>
-    import { computed, useStore } from '@nuxtjs/composition-api'
+<script lang="ts" >
+import { computed, useStore } from '@nuxtjs/composition-api'
 
 export default {
 
-
     setup () {
         const store = useStore()
-        const user = computed ( () =>  store.state.user)
+        const user = computed ( () =>  store.getters.user)
 
         return {
             user

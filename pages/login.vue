@@ -35,7 +35,7 @@
     </div>           
 </template>
 
-<script>
+<script lang="ts">
   import { required, maxLength, minLength } from 'vuelidate/lib/validators'
   import { reactive  } from '@nuxtjs/composition-api'
   import vuelidate from '../composables/vuelidate'

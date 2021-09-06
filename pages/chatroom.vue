@@ -67,7 +67,7 @@ export default {
     const message = ref('');
     const store = useStore();
 
-    const sendMessage = (e) => {
+    const sendMessage = (e: Event) => {
       e.preventDefault();
       if (message.value == '') return;
       let msg: Message = {receiver: store.getters["chatroom/receiver"] ,sender: store.getters.user.userName, message: message.value, id: Date.now()}
@@ -75,7 +75,7 @@ export default {
       message.value = '';
     }
 
-    const setReceiver = (r) => {
+    const setReceiver = (r: string) => {
       store.commit('chatroom/set_receiver',r)
     }
 
