@@ -60,8 +60,8 @@
     
     const {$v, computeds, submit} = vuelidate(rules, state)
 
-    const usernameErrors = computeds['username']
-    const passwordErrors = computeds['password']
+    const usernameErrors = computeds['username'] as object
+    const passwordErrors = computeds['password'] as object
 
     return { usernameErrors, passwordErrors, $v, submit }
   },
@@ -69,7 +69,6 @@
   middleware({ redirect, app, store }) {
       if (store.getters.isLoggedIn) {
         let locale = (app.i18n.locale == 'en' ? '' : app.i18n.locale)
-        console.log(locale)
         return redirect('/' + locale)
       }
     }

@@ -1,7 +1,6 @@
 // import colors from 'vuetify/es5/util/colors'
 import Locale from "./types/language"
-const fa = require('vuetify/src/locale/fa')
-// const locale = require("../types/language.ts")
+import fa from 'vuetify/src/locale/fa'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
