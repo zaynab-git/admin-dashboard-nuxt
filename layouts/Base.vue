@@ -13,13 +13,25 @@
 <script lang="ts">
 import AppBar from '../components/AppBar.vue'
 import AppDrawer from '../components/AppDrawer.vue'
+import { onMounted, useStore } from '@nuxtjs/composition-api'
+
 
 export default {
     name: 'Base',
     components: { AppBar, AppDrawer },
     middleware: ['authentication'],
-    mounted() {
-        this.$store.dispatch('GET_USER')
+    setup() {
+
+        const store = useStore()
+
+        const get_user = () => {
+            store.dispatch('GET_USER')
+        }
+        onMounted(get_user)
+
+        return {
+            get_user
+        }
     }
 }
 </script>

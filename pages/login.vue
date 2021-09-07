@@ -38,7 +38,8 @@
 <script lang="ts">
   import { required, maxLength, minLength } from 'vuelidate/lib/validators'
   import { reactive  } from '@nuxtjs/composition-api'
-  import vuelidate from '../composables/vuelidate'
+  import vuelidate from '../components/composables/vuelidate'
+  import { ValidationArgs, ValidationRule} from '@vuelidate/core'
 
 
   export default {
@@ -50,12 +51,14 @@
       password: ''
     })
 
-    const rules = {
-      username: { required, maxLength: maxLength(10), $autoDirty: true},
-      password: { required, minLength: minLength(6), $autoDirty: true},
-    }
+    let require = required() as ValidationRule
 
-    const {$v, computeds, submit} = vuelidate({rules, state})
+    const rules: ValidationArgs = {
+      username: { require, maxLength: maxLength(10)},
+      password: { require, minLength: minLength(6)},
+    }
+    
+    const {$v, computeds, submit} = vuelidate(rules, state)
 
     const usernameErrors = computeds['username']
     const passwordErrors = computeds['password']
@@ -66,6 +69,7 @@
   middleware({ redirect, app, store }) {
       if (store.getters.isLoggedIn) {
         let locale = (app.i18n.locale == 'en' ? '' : app.i18n.locale)
+        console.log(locale)
         return redirect('/' + locale)
       }
     }

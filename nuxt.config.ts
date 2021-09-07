@@ -1,6 +1,6 @@
 // import colors from 'vuetify/es5/util/colors'
 import Locale from "./types/language"
-const fa = require('vuetify/lib/locale/fa')
+const fa = require('vuetify/src/locale/fa')
 // const locale = require("../types/language.ts")
 
 export default {

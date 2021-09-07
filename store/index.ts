@@ -90,11 +90,8 @@ export const actions : ActionTree<RootState, RootState> = {
   },
 
   logout({commit}){
-    return new Promise((resolve) => {
       commit('logout')
       localStorage.removeItem('token')
-      resolve(null)
-    })
   }
 
 };

@@ -1,13 +1,13 @@
-import useVuelidate from '@vuelidate/core'
+import {useVuelidate, ValidationArgs} from '@vuelidate/core'
 import { computed, useStore, useRouter, useContext  } from '@nuxtjs/composition-api'
 
 
-export default function vuelidate({rules, state}) {
+export default function vuelidate(rules: ValidationArgs, state: object) {
     
     const $v = useVuelidate(rules, state)
     const { app } = useContext();
-    // const computeds : { [key: string]: object; } = {}
-    const computeds = {}
+    const computeds : { [key: string]: object; } = {}
+    // const computeds = {}
 
     computeds['username'] = (
         computed( () => {
@@ -48,7 +48,7 @@ export default function vuelidate({rules, state}) {
       if ($v.value.$invalid) {
         return
       } else {
-      let user = {username: $v.value.username.$model, password: $v.value.username.$model}
+      let user = {username: $v.value.username.$model as string, password: $v.value.username.$model as string}
       return new Promise((resolve, reject) => {
         store.commit('auth_request')
         $axios({url: 'http://127.0.0.1:4010/users', data: user, method: 'POST' })
