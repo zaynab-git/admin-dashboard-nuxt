@@ -20,7 +20,8 @@ export type RootState = ReturnType<typeof state>
 export const getters : GetterTree<RootState, RootState> = {
   isLoggedIn: state => !!state.token,
   authStatus: state => state.status,
-  user: state => state.user
+  user: state => state.user,
+  drawer: state => state.drawer
 };
 
 export const mutations : MutationTree<RootState> = {

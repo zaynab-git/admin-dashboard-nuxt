@@ -61,41 +61,43 @@
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
+  import { ref, computed, useStore, useContext } from '@nuxtjs/composition-api'
 
   export default {
     name: 'Drawer',
 
-    data: () => ({
-      items: [
+    setup() {
+      const items = ref<object[]> ([
           { title: "drawer.dashboard", icon: 'mdi-view-dashboard', to: '/' },
           { title: "drawer.setting", icon: 'mdi-cog', to: '/setting' },
           { title: "drawer.profile", icon: 'mdi-account', to: '/profile' },
           { title: "drawer.chat", icon: 'mdi-chat-question', to: '/chat' },
+        ])
 
-        ],
-    }),
+      const store = useStore()
+      const { redirect, app }  = useContext()
 
-    computed: {
-      drawer: {
+      const drawer = computed({
         get () {
-          return this.$store.state.drawer
+          return store.getters.drawer
         },
         set (val) {
-          this.$store.commit('SET_DRAWER', val)
+          store.commit('SET_DRAWER', val)
         },
-      },
-    },
+      })
 
-    methods: {
-      logOut: function () {
-        this.$store.dispatch('logout')
-        .then(() => {
-          this.$router.push('/login')
-        })
+      const logOut = () => {
+        let locale: string = (app.i18n.locale == 'en' ? '' : app.i18n.locale)
+        store.dispatch('logout')
+        .then(() => redirect('/' + locale + '/login'))
       }
+
+        return {
+          items,
+          drawer,
+          logOut
+        }
     }
-
-
   }
 </script>
