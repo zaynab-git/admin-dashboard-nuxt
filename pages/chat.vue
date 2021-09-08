@@ -54,16 +54,16 @@
 </template>
 
 <script lang="ts">
-import { ref, useStore } from '@nuxtjs/composition-api'
+import { ref, useStore, useContext } from '@nuxtjs/composition-api'
 import {Message} from "../types/chatroom"
 
-export default {
-
+export default { 
   middleware: ['connect-to-chat-server'],
   layout: 'Base',
   name: 'Chat',
   
   setup () {
+    var msgpack = require('@msgpack/msgpack');
     const message = ref('');
     const store = useStore();
 
@@ -71,13 +71,14 @@ export default {
       e.preventDefault();
       if (message.value == '') return;
       let msg: Message = {receiver: store.getters["chatroom/receiver"] ,sender: store.getters.user.userName, message: message.value, id: Date.now()}
-      store.getters["chatroom/chatConnection"].send(JSON.stringify(msg));
+      store.getters["chatroom/chatConnection"].send(msgpack.encode(msg));
       message.value = '';
     }
 
     const setReceiver = (r: string) => {
       store.commit('chatroom/set_receiver',r)
     }
+
 
     return {
       message,
