@@ -1,23 +1,25 @@
 module.exports = {
-    // tell Jest to handle `*.vue` files
-    moduleFileExtensions: ["js", "json", "vue"],
+    setupFilesAfterEnv: ['./jest.setup.js'],
+    testEnvironment: "jsdom",
     preset: '@nuxt/test-utils',
-    watchman: false,
     moduleNameMapper: {
-      "^~/(.*)$": "<rootDir>/$1",
-      "^~~/(.*)$": "<rootDir>/$1",
-      "^@/(.*)$": "<rootDir>/$1"
+      '^@/(.*)$': '<rootDir>/$1',
+      '^~/(.*)$': '<rootDir>/$1',
+      '^vue$': 'vue/dist/vue.common.js',
     },
+    moduleFileExtensions: [
+      'ts',
+      'js',
+      'vue',
+      'json'
+    ],
     transform: {
-      // process js with `babel-jest`
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
-      // process `*.vue` files with `vue-jest`
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+      '^.+\\.js$': 'babel-jest',
+      '.*\\.(vue)$': 'vue-jest'
     },
-    snapshotSerializers: ["<rootDir>/node_modules/jest-serializer-vue"],
-    collectCoverage: true,
+    collectCoverage: false,
     collectCoverageFrom: [
-      "<rootDir>/components/**/*.vue",
-      "<rootDir>/pages/*.vue"
+      '<rootDir>/components/**/*.vue',
+      '<rootDir>/pages/**/*.vue'
     ]
-  };
+  }

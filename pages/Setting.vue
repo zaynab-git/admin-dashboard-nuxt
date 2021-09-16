@@ -4,6 +4,7 @@
                 <v-card>
                     <v-card-title>{{ $t("setting.language") }}</v-card-title>
                     <v-select
+                    data-test="language"
                     v-model="language"
                     :items="availableLocales"
                     item-text="name"
